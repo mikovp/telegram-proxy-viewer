@@ -413,9 +413,9 @@
             serverDiv.className = 'proxy-server';
             let statusLabel = '';
             if (status === 'alive') {
-                statusLabel = `<span style="background:#16a34a;">живой</span>`;
-            } else if (status === 'dead') {
-                statusLabel = `<span style="background:#b91c1c;">не отвечает</span>`;
+                statusLabel = `<span style="background:#16a34a;">подтверждён</span>`;
+            } else if (status === 'unknown') {
+                statusLabel = `<span style="background:#4b5563;">статус не подтверждён</span>`;
             } else {
                 statusLabel = `<span style="background:#4b5563;">ожидает проверки</span>`;
             }
@@ -533,6 +533,7 @@
         let index = 0;
         let checked = 0;
         let aliveCount = 0;
+        let unknownCount = 0;
 
         proxyStatus = {};
         for (const p of list) {
@@ -545,13 +546,17 @@
                 const currentIndex = index++;
                 const proxy = list[currentIndex];
                 const alive = await isProxyAlive(proxy);
-                proxyStatus[proxy] = alive ? 'alive' : 'dead';
-                if (alive) aliveCount++;
+                proxyStatus[proxy] = alive ? 'alive' : 'unknown';
+                if (alive) {
+                    aliveCount++;
+                } else {
+                    unknownCount++;
+                }
                 checked++;
 
                 if (checked % 5 === 0 || checked === list.length) {
                     const percent = Math.round((checked / list.length) * 100);
-                    statsLabel.innerHTML = `⏳ Проверка: ${checked}/${list.length} (${percent}%), живых: ${aliveCount}`;
+                    statsLabel.innerHTML = `⏳ Проверка: ${checked}/${list.length} (${percent}%), подтверждено: ${aliveCount}, не подтверждено: ${unknownCount}`;
                     renderProxies();
                 }
             }
@@ -563,7 +568,7 @@
         }
         await Promise.all(workers);
 
-        statsLabel.innerHTML = `✅ Проверка завершена. Живых: ${aliveCount} из ${list.length}`;
+        statsLabel.innerHTML = `✅ Проверка завершена. Подтверждено: ${aliveCount}, статус не подтверждён: ${unknownCount}`;
     }
 
     async function fetchProxies() {
