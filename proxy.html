@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Telegram Proxy Links | Конвертер прокси</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0f172a 0%, #111827 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Roboto', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header section */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.35rem 1rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            margin-bottom: 1rem;
+            color: #93c5fd;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.75rem;
+        }
+
+        .sub {
+            color: #94a3b8;
+            font-size: 1rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* control panel */
+        .control-panel {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 1rem 1.8rem;
+            margin-bottom: 2.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .stats {
+            background: #0f172a;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: monospace;
+            color: #7dd3fc;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #1e293b;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #cbd5e1;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #334155;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .btn-outline:hover {
+            background: #334155;
+            border-color: #5b6e8c;
+            color: white;
+        }
+
+        /* поиск/фильтр */
+        .search-box {
+            background: #0f172a;
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #334155;
+            width: 260px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #f1f5f9;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .search-box input::placeholder {
+            color: #5b6e8c;
+        }
+
+        /* сетка прокси */
+        .proxy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+
+        /* карточка прокси */
+        .proxy-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 1.5rem;
+            padding: 1rem 1.2rem;
+            transition: all 0.2s;
+            border: 1px solid #2d3a4e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .proxy-card:hover {
+            background: #1e293b;
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .proxy-info {
+            flex: 3;
+            min-width: 180px;
+        }
+
+        .proxy-link {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            background: #0a0f1c;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            display: inline-block;
+            color: #b9c7db;
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: normal;
+        }
+
+        .proxy-server {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #cbd5e6;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .proxy-server span {
+            background: #2d3748;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-family: monospace;
+        }
+
+        .tg-link-btn {
+            background: #229ed9;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            white-space: nowrap;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .tg-link-btn:hover {
+            background: #2ea5e5;
+            transform: scale(1.02);
+            box-shadow: 0 6px 14px rgba(34,158,217,0.3);
+        }
+
+        .copy-btn {
+            background: #334155;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #e2e8f0;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: #475569;
+        }
+
+        .status-message {
+            text-align: center;
+            margin: 1.5rem auto;
+            padding: 1rem;
+            background: rgba(0,0,0,0.4);
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            max-width: 500px;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-text {
+            color: #f87171;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: #5b6e8c;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .proxy-grid { grid-template-columns: 1fr; }
+            .control-panel { flex-direction: column; align-items: stretch; }
+            .search-box { width: 100%; }
+            .proxy-card { flex-direction: column; align-items: stretch; }
+            .tg-link-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="badge">
+            🔗 Telegram MTProto Proxy
+        </div>
+        <h1>⚡ Прокси-конвертер</h1>
+        <div class="sub">Автоматическая загрузка актуальных прокси из репозитория → готовые ссылки для Telegram</div>
+    </div>
+
+    <div class="control-panel">
+        <div class="stats" id="statsLabel">📡 Загрузка данных...</div>
+        <div class="actions">
+            <div class="search-box">
+                🔍 <input type="text" id="searchInput" placeholder="Фильтр по серверу / IP / порту..." autocomplete="off">
+            </div>
+            <button class="btn btn-outline" id="refreshBtn">⟳ Обновить</button>
+            <button class="btn btn-outline" id="copyAllLinksBtn">📋 Скопировать все tg:// ссылки</button>
+        </div>
+    </div>
+
+    <div id="proxyContainer" class="proxy-grid">
+        <div class="status-message">
+            <div class="loader" style="margin-right: 8px;"></div> Загрузка списка прокси с GitHub...
+        </div>
+    </div>
+    <footer>
+        ⚡ Каждая строка формата <code>tg://proxy?...</code> преобразована в активную ссылку. Нажмите → откроется Telegram (десктоп/моб).<br>
+        Данные взяты из <strong>raw.githubusercontent.com/kort0881/telegram-proxy-collector</strong>
+    </footer>
+</div>
+
+<script>
+    // Источники списков прокси: RU и EU. Берём оба файла и объединяем.
+    // Важно: не добавлять заголовки вроде Cache-Control — это вызывает CORS preflight (OPTIONS),
+    // а raw.githubusercontent.com отвечает на него 403 при открытии страницы с file:// или с http.
+    const PROXY_SOURCE_BASES = [
+        'https://raw.githubusercontent.com/kort0881/telegram-proxy-collector/main/proxy_ru.txt',
+        'https://raw.githubusercontent.com/kort0881/telegram-proxy-collector/main/proxy_eu.txt',
+    ];
+    
+    // Состояние
+    let allProxies = [];        // массив строк (исходные tg:// ссылки, только валидные)
+    let filteredProxies = [];
+    let isLoading = false;
+    let lastError = null;
+    let proxyStatus = {}; // proxyUrl -> 'pending' | 'alive' | 'dead'
+
+    // DOM элементы
+    const proxyContainer = document.getElementById('proxyContainer');
+    const statsLabel = document.getElementById('statsLabel');
+    const searchInput = document.getElementById('searchInput');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const copyAllLinksBtn = document.getElementById('copyAllLinksBtn');
+
+    // Функция для парсинга сырого текста: извлекаем строки, начинающиеся с "tg://proxy" (игнорируем комментарии # и пустые)
+    function parseProxyLines(rawText) {
+        const lines = rawText.split(/\r?\n/);
+        const proxies = [];
+        for (let line of lines) {
+            line = line.trim();
+            // Пропускаем пустые и комментарии (начинающиеся с #)
+            if (line.length === 0 || line.startsWith('#')) continue;
+            // Если строка содержит ссылку tg://proxy (иногда могут быть мусорные строки, но фильтруем строго)
+            if (line.startsWith('tg://proxy')) {
+                proxies.push(line);
+            } else {
+                // дополнительная безопасность: если строка содержит tg://proxy не в начале? но по логике файла все ссылки с начала.
+                // все же оставим fallback: ищем подстроку
+                const match = line.match(/tg:\/\/proxy\?[^\s]+/);
+                if (match) proxies.push(match[0]);
+            }
+        }
+        return proxies;
+    }
+
+    // Извлечь из tg://proxy читаемую информацию (сервер, порт) для отображения в карточке
+    function extractServerInfo(proxyUrl) {
+        try {
+            // простая ручная экстракция параметров
+            const urlParams = new URL(proxyUrl);
+            const server = urlParams.searchParams.get('server') || 'unknown';
+            const port = urlParams.searchParams.get('port') || '?';
+            // дополнительно: обрезаем длинные имена
+            let shortServer = server.length > 35 ? server.substring(0, 32) + '...' : server;
+            return { server: shortServer, port, fullServer: server };
+        } catch (e) {
+            // если не спарсилось через URL (бывает из-за нестандартных символов, но обычно ок)
+            const matchServer = proxyUrl.match(/server=([^&]+)/);
+            const matchPort = proxyUrl.match(/port=([^&]+)/);
+            const server = matchServer ? matchServer[1] : 'unknown';
+            const port = matchPort ? matchPort[1] : '?';
+            let shortServer = server.length > 35 ? server.substring(0, 32) + '...' : server;
+            return { server: shortServer, port, fullServer: server };
+        }
+    }
+
+    // Рендеринг списка прокси (с учетом фильтрации)
+    function renderProxies() {
+        if (lastError) {
+            proxyContainer.innerHTML = `
+                <div class="status-message error-text">
+                    ⚠️ Ошибка загрузки: ${lastError}<br>
+                    <button class="btn btn-primary" id="retryLoadBtn" style="margin-top: 12px;">🔄 Повторить</button>
+                </div>
+            `;
+            const retryBtn = document.getElementById('retryLoadBtn');
+            if (retryBtn) retryBtn.addEventListener('click', () => fetchProxies());
+            return;
+        }
+
+        if (isLoading && filteredProxies.length === 0) {
+            proxyContainer.innerHTML = `
+                <div class="status-message">
+                    <div class="loader" style="margin-right: 8px;"></div> Загрузка списка прокси...
+                </div>
+            `;
+            return;
+        }
+
+        if (filteredProxies.length === 0) {
+            proxyContainer.innerHTML = `
+                <div class="status-message">
+                    📭 Нет прокси, соответствующих фильтру, или список пуст. ${allProxies.length ? 'Измените условия поиска.' : 'Прокси не найдены в источнике.'}
+                </div>
+            `;
+            return;
+        }
+
+        // строим карточки
+        proxyContainer.innerHTML = '';
+        for (let idx = 0; idx < filteredProxies.length; idx++) {
+            const proxyLink = filteredProxies[idx];
+            const { server, port, fullServer } = extractServerInfo(proxyLink);
+            const status = proxyStatus[proxyLink] || 'pending';
+            
+            const card = document.createElement('div');
+            card.className = 'proxy-card';
+            
+            // левая часть: информация
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'proxy-info';
+            
+            const serverDiv = document.createElement('div');
+            serverDiv.className = 'proxy-server';
+            let statusLabel = '';
+            if (status === 'alive') {
+                statusLabel = `<span style="background:#16a34a;">живой</span>`;
+            } else if (status === 'dead') {
+                statusLabel = `<span style="background:#b91c1c;">не отвечает</span>`;
+            } else {
+                statusLabel = `<span style="background:#4b5563;">ожидает проверки</span>`;
+            }
+            serverDiv.innerHTML = `
+                🌐 ${escapeHtml(server)} <span>порт: ${escapeHtml(port)}</span> ${statusLabel}
+            `;
+            
+            const linkCode = document.createElement('div');
+            linkCode.className = 'proxy-link';
+            // показать сокращённую ссылку (первые 60 символов)
+            let shortLink = proxyLink.length > 70 ? proxyLink.substring(0, 67) + '...' : proxyLink;
+            linkCode.textContent = shortLink;
+            linkCode.title = proxyLink; // полная ссылка в тултипе
+            
+            infoDiv.appendChild(serverDiv);
+            infoDiv.appendChild(linkCode);
+            
+            // правые кнопки
+            const actionsDiv = document.createElement('div');
+            actionsDiv.style.display = 'flex';
+            actionsDiv.style.gap = '0.6rem';
+            actionsDiv.style.alignItems = 'center';
+            
+            const tgButton = document.createElement('a');
+            tgButton.href = proxyLink;
+            tgButton.target = '_blank';
+            tgButton.rel = 'noopener noreferrer';
+            tgButton.className = 'tg-link-btn';
+            tgButton.innerHTML = '📱 Открыть в Telegram';
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = '📋 Копировать ссылку';
+            copyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(proxyLink).then(() => {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '✅ Скопировано!';
+                    setTimeout(() => { copyBtn.innerHTML = originalText; }, 1500);
+                }).catch(() => {
+                    copyBtn.innerHTML = '❌ Ошибка';
+                    setTimeout(() => { copyBtn.innerHTML = '📋 Копировать ссылку'; }, 1000);
+                });
+            });
+            
+            actionsDiv.appendChild(tgButton);
+            actionsDiv.appendChild(copyBtn);
+            
+            card.appendChild(infoDiv);
+            card.appendChild(actionsDiv);
+            proxyContainer.appendChild(card);
+        }
+        
+        // Обновляем статистику
+        statsLabel.innerHTML = `📊 Всего: ${allProxies.length} | Показано: ${filteredProxies.length}`;
+    }
+    
+    // простой escape для безопасности
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Фильтрация прокси по введённому тексту (server, порт, часть ссылки)
+    function applyFilter() {
+        const query = searchInput.value.trim().toLowerCase();
+        if (!query) {
+            filteredProxies = [...allProxies];
+        } else {
+            filteredProxies = allProxies.filter(proxy => {
+                const info = extractServerInfo(proxy);
+                const fullMatch = 
+                    info.fullServer.toLowerCase().includes(query) || 
+                    info.port.toString().includes(query) ||
+                    proxy.toLowerCase().includes(query);
+                return fullMatch;
+            });
+        }
+        renderProxies();
+    }
+
+        // Вспомогательная функция: попытаться дернуть URL с таймаутом (no-cors), ошибки считаем "недоступен"
+    async function tryFetchUrlWithTimeout(url, timeoutMs) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            await fetch(url, {
+                mode: 'no-cors',
+                signal: controller.signal,
+                cache: 'no-store',
+            });
+            clearTimeout(timeoutId);
+            return true;
+        } catch (e) {
+            clearTimeout(timeoutId);
+            return false;
+        }
+    }
+
+    // Проверка доступности одного прокси (best-effort).
+    // Ограничение браузера: нельзя реально проверить MTProto-порт,
+    // поэтому считаем "живым", если хост хоть как-то отвечает по HTTP/HTTPS.
+    async function isProxyAlive(proxyUrl) {
+        try {
+            const info = extractServerInfo(proxyUrl);
+            const host = info.fullServer;
+            const port = info.port || '443';
+            if (!host || host === 'unknown') return false;
+
+            // Стратегия:
+            // - 80  -> http://host
+            // - 443 -> https://host
+            // - остальные порты: пробуем https://host и http://host, если оба падают — считаем мёртвым
+            const TIMEOUT = 3500;
+            if (port === '80') {
+                return await tryFetchUrlWithTimeout(`http://${host}`, TIMEOUT);
+            }
+            if (port === '443') {
+                return await tryFetchUrlWithTimeout(`https://${host}`, TIMEOUT);
+            }
+
+            const httpsOk = await tryFetchUrlWithTimeout(`https://${host}`, TIMEOUT);
+            if (httpsOk) return true;
+            const httpOk = await tryFetchUrlWithTimeout(`http://${host}`, TIMEOUT);
+            return httpOk;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // Проверка всех прокси на доступность с ограничением параллелизма + прогресс.
+    // ВАЖНО: список на странице не фильтруется, просто для каждого прокси меняется флаг.
+    async function checkAllProxiesAvailability(list) {
+        const CONCURRENCY = 6;
+        let index = 0;
+        let checked = 0;
+        let aliveCount = 0;
+
+        // инициализируем статусы
+        proxyStatus = {};
+        for (const p of list) {
+            proxyStatus[p] = 'pending';
+        }
+        renderProxies();
+
+        async function worker() {
+            while (index < list.length) {
+                const currentIndex = index++;
+                const proxy = list[currentIndex];
+                const alive = await isProxyAlive(proxy);
+                proxyStatus[proxy] = alive ? 'alive' : 'dead';
+                if (alive) aliveCount++;
+                checked++;
+
+                if (checked % 5 === 0 || checked === list.length) {
+                    const percent = Math.round((checked / list.length) * 100);
+                    statsLabel.innerHTML = `⏳ Проверка: ${checked}/${list.length} (${percent}%), живых: ${aliveCount}`;
+                    renderProxies();
+                }
+            }
+        }
+
+        const workers = [];
+        for (let i = 0; i < CONCURRENCY; i++) {
+            workers.push(worker());
+        }
+        await Promise.all(workers);
+
+        statsLabel.innerHTML = `✅ Проверка завершена. Живых: ${aliveCount} из ${list.length}`;
+    }
+
+    // Основная загрузка данных
+    async function fetchProxies() {
+        if (isLoading) return;
+        isLoading = true;
+        lastError = null;
+        renderProxies();  // отображаем лоадер
+        statsLabel.innerHTML = `🔄 Синхронизация с GitHub...`;
+        
+        try {
+            const bust = Date.now();
+            let combinedProxies = [];
+            let hadAtLeastOneSuccess = false;
+
+            for (const base of PROXY_SOURCE_BASES) {
+                const url = base + (base.includes('?') ? '&' : '?') + '_=' + bust;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 сек таймаут на каждый источник
+                try {
+                    const response = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    if (!response.ok) continue;
+                    const rawText = await response.text();
+                    const proxyList = parseProxyLines(rawText);
+                    if (proxyList.length) {
+                        hadAtLeastOneSuccess = true;
+                        combinedProxies = combinedProxies.concat(proxyList);
+                    }
+                } catch (e) {
+                    clearTimeout(timeoutId);
+                    console.warn('Ошибка при загрузке источника', base, e);
+                }
+            }
+
+            if (!hadAtLeastOneSuccess || combinedProxies.length === 0) {
+                throw new Error('Не удалось загрузить ни одного списка прокси (RU/EU)');
+            }
+
+            // убираем дубликаты
+            const uniqueProxies = Array.from(new Set(combinedProxies));
+
+            allProxies = uniqueProxies;
+            filteredProxies = [...allProxies];
+            lastError = null;
+            isLoading = false;
+
+            // сброс поиска
+            searchInput.value = '';
+            applyFilter(); // рендер списка
+            statsLabel.innerHTML = `⏳ Найдено ${allProxies.length} прокси. Начинаем проверку доступности...`;
+
+            // асинхронно проверяем все, не фильтруя список
+            checkAllProxiesAvailability(allProxies);
+            
+        } catch (err) {
+            console.error(err);
+            let errorMsg = err.message || 'Неизвестная ошибка';
+            if (err.name === 'AbortError') errorMsg = 'Превышен таймаут загрузки (медленное соединение)';
+            else if (err.message.includes('Failed to fetch')) errorMsg = 'Ошибка сети. Проверьте соединение или CORS.';
+            lastError = errorMsg;
+            allProxies = [];
+            filteredProxies = [];
+            isLoading = false; // иначе renderProxies() не покажет текст ошибки
+            renderProxies();
+            statsLabel.innerHTML = `⚠️ Ошибка: ${errorMsg.substring(0, 70)}`;
+        } finally {
+            isLoading = false;
+        }
+    }
+    
+    // Скопировать все tg:// ссылки (все прокси из allProxies)
+    function copyAllLinksToClipboard() {
+        if (!allProxies.length) {
+            // показать временное уведомление
+            const tempMsg = document.createElement('div');
+            tempMsg.className = 'status-message';
+            tempMsg.style.position = 'fixed';
+            tempMsg.style.bottom = '20px';
+            tempMsg.style.left = '50%';
+            tempMsg.style.transform = 'translateX(-50%)';
+            tempMsg.style.zIndex = '999';
+            tempMsg.style.background = '#1e293b';
+            tempMsg.style.padding = '0.6rem 1.2rem';
+            tempMsg.style.borderRadius = '3rem';
+            tempMsg.style.fontSize = '0.8rem';
+            tempMsg.innerText = '❌ Нет прокси для копирования';
+            document.body.appendChild(tempMsg);
+            setTimeout(() => tempMsg.remove(), 2000);
+            return;
+        }
+        
+        const allLinksText = allProxies.join('\n');
+        navigator.clipboard.writeText(allLinksText).then(() => {
+            const notify = document.createElement('div');
+            notify.className = 'status-message';
+            notify.style.position = 'fixed';
+            notify.style.bottom = '20px';
+            notify.style.left = '50%';
+            notify.style.transform = 'translateX(-50%)';
+            notify.style.zIndex = '999';
+            notify.style.background = '#0f172a';
+            notify.style.border = '1px solid #22c55e';
+            notify.style.padding = '0.6rem 1.2rem';
+            notify.style.borderRadius = '3rem';
+            notify.style.fontSize = '0.8rem';
+            notify.innerHTML = `📋 Скопировано ${allProxies.length} прокси-ссылок в буфер обмена`;
+            document.body.appendChild(notify);
+            setTimeout(() => notify.remove(), 2500);
+        }).catch(() => {
+            alert('Не удалось скопировать ссылки. Проверьте разрешения.');
+        });
+    }
+    
+    // Debounce для поиска
+    let debounceTimer;
+    searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            applyFilter();
+        }, 280);
+    });
+    
+    refreshBtn.addEventListener('click', () => {
+        fetchProxies();
+    });
+    
+    copyAllLinksBtn.addEventListener('click', copyAllLinksToClipboard);
+    
+    // начальная загрузка при загрузке страницы
+    fetchProxies();
+    
+    // дополнительно: обрабатываем возможные изменения видимости (если нужно, но не обязательно)
+    window.addEventListener('online', () => {
+        if (allProxies.length === 0 && !isLoading) fetchProxies();
+    });
+</script>
+</body>
+</html>
